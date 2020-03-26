@@ -1,0 +1,66 @@
+/*
+ * Copyright (C) 2020 Jared
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package jmb05.bibel.bot.scheduler;
+   
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
+import jmb05.bibel.bot.Main;
+import jmb05.bibel.bot.util.SendTemplates;
+import jmb05.bibel.bot.util.Util;
+
+public class LosungScheduler{
+    
+    private static final HashMap<Long, Timer> TIMERS = new HashMap<Long, Timer>();
+    
+    public static void init(){
+        Main.jda.getGuilds().forEach((guild) -> {
+            TIMERS.put(guild.getIdLong(), new Timer());
+        });
+    }
+    
+    public static void start(long guildID){
+        Time time = Util.getTime(guildID);
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, time.getHour());
+        cal.set(Calendar.MINUTE, time.getMinute());
+        cal.set(Calendar.SECOND, time.getSecond());
+        Date date = cal.getTime();
+        Timer timer = new Timer();
+        
+        timer.schedule(new TimerTask() {
+            @Override
+            @SuppressWarnings("null")
+            public void run() {
+                Main.jda.getGuildById(guildID).getTextChannelsByName(Util.getLosungenChannelName(guildID), false).forEach(SendTemplates::sendLosungHeute);
+            }
+        }, date, 24*60*60*1000);
+    }
+    
+    public static void stop(long guildID){
+        TIMERS.get(guildID).cancel();
+    }
+    
+    public static void restart(long guildID){
+        stop(guildID);
+        TIMERS.put(guildID, new Timer());
+        start(guildID);
+    }
+    
+}
