@@ -1,0 +1,6 @@
+build/
+nbproject/
+database.db
+secret.token
+build.xml
+dist/
