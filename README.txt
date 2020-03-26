@@ -1,3 +1,3 @@
 Please read the LICENSE.txt.
 
-For help refer to our (nonexisting) wiki.
+For help refer to our wiki.
