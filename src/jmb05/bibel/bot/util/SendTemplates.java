@@ -74,7 +74,7 @@ public class SendTemplates {
         EmbedBuilder help = new EmbedBuilder();
         help.setTitle("Bibel Bot - Hilfe - Über");
         help.setDescription("Das sind meine specs!");
-        help.addField("", "**Bibel Bot**\nVersion: 1.2\nEntwickler: @jmb05", false);
+        help.addField("", "**Bibel Bot**\nVersion: 1.2.1\nEntwickler: @jmb05", false);
         help.setColor(Color.green);
 
         channel.sendTyping().queue();

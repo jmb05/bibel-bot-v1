@@ -16,16 +16,9 @@
  */
 package jmb05.bibel.bot;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.security.auth.login.LoginException;
-import jmb05.bibel.bot.commands.AdminCommand;
 import jmb05.bibel.bot.commands.Commands;
-import jmb05.bibel.bot.commands.HelpCommand;
-import jmb05.bibel.bot.commands.LosungCommand;
-import jmb05.bibel.bot.database.SQLiteManager;
 import jmb05.bibel.bot.scheduler.LosungScheduler;
 import jmb05.bibel.bot.util.Util;
 import net.dv8tion.jda.api.JDA;
