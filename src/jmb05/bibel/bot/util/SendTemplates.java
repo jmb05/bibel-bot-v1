@@ -17,6 +17,7 @@
 package jmb05.bibel.bot.util;
 
 import java.awt.Color;
+import java.sql.SQLException;
 import static jmb05.bibel.bot.util.Util.getLosungenChannelName;
 import static jmb05.bibel.bot.util.Util.getPrefix;
 import static jmb05.bibel.bot.util.Util.getTime;
@@ -92,7 +93,7 @@ public class SendTemplates {
         help.clear();
     }
     
-    public static void sendPrefix(TextChannel channel){
+    public static void sendPrefix(TextChannel channel) throws SQLException{
         EmbedBuilder help = new EmbedBuilder();
         help.setTitle("Bibel Bot - Admin");
         help.addField("", "Der Prefix des Servers ist: \'"+getPrefix(channel.getGuild().getIdLong())+"\'", false);

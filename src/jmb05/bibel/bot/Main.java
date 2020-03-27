@@ -16,17 +16,21 @@
  */
 package jmb05.bibel.bot;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.security.auth.login.LoginException;
 import jmb05.bibel.bot.commands.AdminCommand;
+import jmb05.bibel.bot.commands.Commands;
 import jmb05.bibel.bot.commands.HelpCommand;
 import jmb05.bibel.bot.commands.LosungCommand;
-import jmb05.bibel.bot.database.SQLiteDataSource;
+import jmb05.bibel.bot.database.SQLiteManager;
 import jmb05.bibel.bot.scheduler.LosungScheduler;
 import jmb05.bibel.bot.util.Util;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Activity;
 
 /**
  *
@@ -37,21 +41,17 @@ public class Main {
     public static JDA jda;
     public static String losungenFile = "";
     public static String jahreslosungenFile = "";
-    public static String dataBase = "";
     public static int HOUR = 0;
     public static int MINUTE = 0;
     public static int SECOND = 0;
-    public static SQLiteDataSource sqliteDataSource;
     
     //Main method
-    public static void main(String[] args) throws InterruptedException, LoginException{
+    public static void main(String[] args) throws InterruptedException, LoginException, SQLException{
         java.util.logging.Logger.getLogger(Main.class.getName()).info("Hi, I am the \"Bibel Bot\"...");
         java.util.logging.Logger.getLogger(Main.class.getName()).info("Initializing Variables ...");
         
         losungenFile = "losungen.xlsx";
         jahreslosungenFile = "jahreslosungen.xlsx";
-        
-        sqliteDataSource = new SQLiteDataSource();
         
         java.util.logging.Logger.getLogger(Main.class.getName()).info("Initializing and Starting JDA...");
         jda = JDABuilder.createDefault(Util.loadToken()).build();
@@ -64,14 +64,14 @@ public class Main {
             LosungScheduler.start(guild.getIdLong());
         });
         
-        jda.addEventListener(new LosungCommand());
-        jda.addEventListener(new HelpCommand());
-        jda.addEventListener(new AdminCommand());
+        jda.addEventListener(new Commands());
+        
     }
     
     public static void close(){
         java.util.logging.Logger.getLogger(Main.class.getName()).info("Closing everything down ... bye!");
         jda.shutdown();
+        System.exit(0);
     }
     
 }

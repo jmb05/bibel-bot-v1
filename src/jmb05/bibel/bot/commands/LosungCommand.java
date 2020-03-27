@@ -17,6 +17,7 @@
 package jmb05.bibel.bot.commands;
 
 import java.awt.Color;
+import java.util.Calendar;
 import jmb05.bibel.bot.util.SendTemplates;
 import jmb05.bibel.bot.util.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -29,28 +30,32 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
  */
 public class LosungCommand extends ListenerAdapter{
     
-    @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent evt){
-        String[] args = evt.getMessage().getContentRaw().split("\\s+");
-        
-        if(args[0].equals(Util.getPrefix(evt.getGuild().getIdLong()) + "losung")){
-            try{
-                if(args[1].equals("heute")){
-                    SendTemplates.sendLosungHeute(evt.getChannel());
-                }else if(args[1].equals("jahr")){
-                    SendTemplates.sendLosungJahr(evt.getChannel());
-                }
-            }catch(ArrayIndexOutOfBoundsException aioobe){
-                EmbedBuilder losung = new EmbedBuilder();
-                losung.setTitle("Bibel Bot - Hilfe");
-                losung.addField("", "Das Kommando \'!losung\' macht alleine nichts ... hänge noch \'heute\' oder \'jahr\' hinten ran um die gewünschte Losung anzuzeigen! :wink:", false);
-                losung.setColor(Color.green);
-
-                evt.getChannel().sendTyping().queue();
-                evt.getChannel().sendMessage(losung.build()).queue();
-                losung.clear();
+    public static void losungMessageReceived(GuildMessageReceivedEvent evt, String[] args){
+        try{
+            if(args[1].equals("heute")){
+                SendTemplates.sendLosungHeute(evt.getChannel());
+            }else if(args[1].equals("jahr")){
+                SendTemplates.sendLosungJahr(evt.getChannel());
             }
-            
+//            else{
+//                try{
+//                    String[] parts = args[2].split(".");
+//                    Calendar cal = Calendar.getInstance();
+//                    cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(parts[0]));
+//                    cal.set(Calendar.MONTH, Integer.parseInt(parts[1]));
+//                }catch(NumberFormatException nfe){
+//
+//                }
+//            }
+        }catch(ArrayIndexOutOfBoundsException aioobe){
+            EmbedBuilder losung = new EmbedBuilder();
+            losung.setTitle("Bibel Bot - Hilfe");
+            losung.addField("", "Das Kommando \'!losung\' macht alleine nichts ... hänge noch \'heute\' oder \'jahr\' hinten ran um die gewünschte Losung anzuzeigen! :wink:", false);
+            losung.setColor(Color.green);
+
+            evt.getChannel().sendTyping().queue();
+            evt.getChannel().sendMessage(losung.build()).queue();
+            losung.clear();
         }
     }
     

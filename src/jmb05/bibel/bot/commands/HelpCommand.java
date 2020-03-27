@@ -18,38 +18,31 @@ package jmb05.bibel.bot.commands;
 
 import java.awt.Color;
 import jmb05.bibel.bot.util.SendTemplates;
-import jmb05.bibel.bot.util.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 /**
  *
  * @author Jared
  */
-public class HelpCommand extends ListenerAdapter{
+public class HelpCommand {
     
-    @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent evt){
-        String[] args = evt.getMessage().getContentRaw().split("\\s+");
-        
-        if(args[0].equals(Util.getPrefix(evt.getGuild().getIdLong()) + "hilfe")){
-            try{
-                if(args[1].equals("über")){
-                    SendTemplates.sendHilfeAbout(evt.getChannel());
-                }else if(args[1].equals("kommandos")){
-                    SendTemplates.sendHilfeKommandos(evt.getChannel());
-                }
-            }catch(ArrayIndexOutOfBoundsException aioobe){
-                EmbedBuilder losung = new EmbedBuilder();
-                losung.setTitle("Bibel Bot - Hilfe");
-                losung.addField("", "Das Kommando \'!hilfe\' macht alleine nichts ... hänge noch \'über\' oder \'kommandos\' hinten ran um die gewünschte Hilfestellung anzuzeigen! :wink:", false);
-                losung.setColor(Color.green);
-
-                evt.getChannel().sendTyping().queue();
-                evt.getChannel().sendMessage(losung.build()).queue();
-                losung.clear();
+    public static void helpMessageReceived(GuildMessageReceivedEvent evt, String[] args){
+        try{
+            if(args[1].equals("über")){
+                SendTemplates.sendHilfeAbout(evt.getChannel());
+            }else if(args[1].equals("kommandos")){
+                SendTemplates.sendHilfeKommandos(evt.getChannel());
             }
+        }catch(ArrayIndexOutOfBoundsException aioobe){
+            EmbedBuilder losung = new EmbedBuilder();
+            losung.setTitle("Bibel Bot - Hilfe");
+            losung.addField("", "Das Kommando \'!hilfe\' macht alleine nichts ... hänge noch \'über\' oder \'kommandos\' hinten ran um die gewünschte Hilfestellung anzuzeigen! :wink:", false);
+            losung.setColor(Color.green);
+
+            evt.getChannel().sendTyping().queue();
+            evt.getChannel().sendMessage(losung.build()).queue();
+            losung.clear();
         }
     }
     

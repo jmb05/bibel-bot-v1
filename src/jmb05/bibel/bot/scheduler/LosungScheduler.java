@@ -42,8 +42,15 @@ public class LosungScheduler{
         cal.set(Calendar.MINUTE, time.getMinute());
         cal.set(Calendar.SECOND, time.getSecond());
         Date date = cal.getTime();
-        Timer timer = new Timer();
+        Date current = new Date();
+        if(current.after(date)){
+            Calendar c = Calendar.getInstance();
+            c.setTime(date);
+            c.add(Calendar.DATE, 1);
+            date = c.getTime();
+        }
         
+        Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             @SuppressWarnings("null")

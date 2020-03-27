@@ -27,5 +27,6 @@ public class VariableManager {
     public static final String DEAFULT_PREFIX = "!";
     public static final String DEAFULT_CHANNEL = "losungen";
     public static final Time DEFAULT_TIME = new Time(8, 0, 0);
+    public static final String DATABASE_FILE = "database.db";
     
 }
