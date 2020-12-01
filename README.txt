@@ -1,3 +1,1 @@
-Please read the LICENSE.txt.
-
-For help refer to our wiki.
+This is the deprcated version 1 of the Discord "Bibel-Bot"
